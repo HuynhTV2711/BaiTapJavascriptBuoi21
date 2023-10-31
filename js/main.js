@@ -28,7 +28,6 @@ function getValueUser() {
   var nhanVien = new NhanVien();
   for (let i = 0; i < arrId.length; i++) {
     var valueInput = document.getElementById(arrId[i]).value;
-    nhanVien[arrId[i]] = valueInput;
     if (arrId[i] == "email") {
       isValid &=
         checkEmptyValue(valueInput, spanId[i]) &&
@@ -61,20 +60,32 @@ function getValueUser() {
       } else {
       isValid &= checkEmptyValue(valueInput, spanId[i]);
     }
+    nhanVien[arrId[i]] = valueInput;
+
   }
   if (isValid) {
+    // arrNhanVien.push(nhanVien);
+    // saveLocalStore("arrNhanVien", arrNhanVien);
+    // render();
+    // reset();
+    
+    return nhanVien;
+  }
+}
+
+function addUser() {
+  // preventDefault giúp ngăn chặn sự kiện reload lại trang
+  // event.preventDefault();
+  var nhanVien = getValueUser();
+  if (nhanVien) {
     arrNhanVien.push(nhanVien);
-    saveLocalStore("arrNhanVien", arrNhanVien);
+    // debugger;
+    saveLocalStore('arrNhanVien', arrNhanVien);
     render();
     reset();
-    // return sinhVien;
   }
-  var day= document.getElementById("datepicker").value;
-    console.log(day);
 }
-document.getElementById("btnThemNV").onclick = getValueUser;
-
-
+document.getElementById("btnThemNV").onclick = addUser;
 // Hàm render nội dung ra màn hình
 function render(arr) {
   var nhanVien = new NhanVien();
@@ -131,9 +142,13 @@ function deleteNhanVien(email) {
 // Hàm lấy dữ liệu nhân viên đổ ra form nhập
 function getInforNhanVien(email) {
   document.getElementById("email").disabled= true;
+  document.getElementById("btnThemNV").disabled= true;
+
+
   var index = -1;
   for (let j = 0; j < arrNhanVien.length; j++) {
     if (arrNhanVien[j].email == email) {
+      console.log(arrNhanVien[j]);
       index = j;
       for (let i = 0; i < arrId.length; i++) {
         document.getElementById(arrId[i]).value = arrNhanVien[j][arrId[i]];
@@ -144,6 +159,22 @@ function getInforNhanVien(email) {
 // Hàm editNhanVien
 function editNhanVien(){
   document.getElementById("email").disabled = false;
+  document.getElementById("btnThemNV").disabled= false;
+  var nhanVien = getValueUser();
+  // 1 có dữ liệu sinh viên, 2 undifined
+  // tìm tới vị trí của phần tử đang có dữ liệu cũ trong mảng và thay thế
+  var index = -1;
+  for (var i = 0; i < arrNhanVien.length; i++) {
+    if (nhanVien.email == arrNhanVien[i].email) {
+      index = i;
+    }
+  }
+  reset();
+  // CRUD ==> Create, Read, Update, Delete
+  console.log(index);
+  arrNhanVien[index] = nhanVien;
+  saveLocalStore('arrNhanVien', arrNhanVien);
+  render();
 
 }
 
@@ -166,7 +197,9 @@ function timKiemNhanVien() {
     Object.assign(nhanVien, arrNhanVien[j]);
     if (nhanVien.xepLoai() == xepLoai) {
       var xlnv = nhanVien;
+      console.log(xlnv);
       arrXepLoai.push(xlnv);
+      console.log(arrXepLoai);
     }
   }
   // document.getElementById("searchName").value = "";
@@ -192,9 +225,5 @@ function getLocalStore(key) {
   }
 }
 getLocalStore("arrNhanVien");
-// var regexName = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,10}$/
-// var regexName = /^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/;
- var regexName = /^((19|20)?[0-9]{2}[- -.](0?[1-9]|1[012])[- -.](0?[1-9]|[12][0-9]|3[01]))*$/;
-    let result = regexName.test("1992-01-28");
-    console.log(result);
+
     
