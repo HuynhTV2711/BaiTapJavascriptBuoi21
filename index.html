@@ -149,12 +149,21 @@
               <div class="row mb-3">
                 <div class="col">
                   <div class="input-group">
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
                       placeholder="Loại nhân viên(nhập vào : Xuất sắc, Giỏi, Khá, Trung bình)"
                       id="searchName"
-                    />
+                    /> -->
+                    <select class="form-control" id="searchName">
+                      <option value="">Chọn loại nhân viên cần tìm kiếm</option>
+                      <option value="Tất cả">Tất cả</option>
+                      <option value="Xuất sắc">Xuất sắc</option>
+                      <option value="Giỏi">Giỏi</option>
+                      <option value="Khá">Khá</option>
+                      <option value="Trung bình">Trung bình</option>
+
+                    </select>
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="btnTimNV"
                         ><i class="fa fa-search"></i

@@ -196,6 +196,9 @@ var arrSearch = [];
     arrSearch.push(arrNhanVien[i]);
     render(arrSearch)
   }
+  if (xepLoai == 'Tất cả') {
+    render(arrNhanVien);
+  }
   }
 }
 
