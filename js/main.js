@@ -187,18 +187,21 @@ function reset() {
 // kiếm tra loại nhập == xeploai => lấy ra Nhân Viên đó push vào arr
 // render
 function timKiemNhanVien() {
-var arrSearch = [];
+  var arrSearch = [];
   var nhanVienn = new NhanVien();
   var xepLoai = document.getElementById("searchName").value;
   for (let i = 0; i < arrNhanVien.length; i++) {
     Object.assign(nhanVienn, arrNhanVien[i]);
-  if (xepLoai == nhanVienn.xepLoai()) {
-    arrSearch.push(arrNhanVien[i]);
-    render(arrSearch)
-  }
-  if (xepLoai == 'Tất cả') {
-    render(arrNhanVien);
-  }
+    if (xepLoai == nhanVienn.xepLoai()) {
+      arrSearch.push(arrNhanVien[i]);
+      render(arrSearch);
+    }
+    if (xepLoai !== nhanVienn.xepLoai()) {
+      render(arrSearch);
+    }
+    if (xepLoai == "Tất cả") {
+      render(arrNhanVien);
+    }
   }
 }
 
