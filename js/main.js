@@ -21,7 +21,6 @@ var spanId = [
 ];
 // Tạo mảng arr Nhân Viên để lưu trữ các đối tượng nhân viên
 var arrNhanVien = [];
-
 // tạo hàm lấy dữ liệu người dùng nhập vào và lưu vào đối tượng nhanVien
 function getValueUser() {
   var isValid = true;
@@ -36,39 +35,38 @@ function getValueUser() {
       isValid &=
         checkEmptyValue(valueInput, spanId[i]) &&
         checkStrongPwd(valueInput, spanId[i]);
-        // checkMinMaxValue(valueInput, spanId[i], 6, 10);
-    }else if (arrId[i] == "tknv") {
-        isValid &=
-          checkEmptyValue(valueInput, spanId[i]) &&
-          checkMinMaxValue(valueInput, spanId[i], 4, 6);
-      }else if (arrId[i] == "name") {
-        isValid &=
-          checkEmptyValue(valueInput, spanId[i]) &&
-          checkTextValue(valueInput,spanId[i]);
-      }else if (arrId[i] == "datepicker") {
-        isValid &=
-          checkEmptyValue(valueInput, spanId[i]) &&
-          checkDatePicker(valueInput,spanId[i]);
-      }else if (arrId[i] == "luongCB") {
-        isValid &=
-          checkEmptyValue(valueInput, spanId[i]) &&
-          checkSalary(valueInput, spanId[i], 1000000, 20000000);
-      }else if (arrId[i] == "gioLam") {
-        isValid &=
-          checkEmptyValue(valueInput, spanId[i]) &&
-          checkHour(valueInput, spanId[i], 80, 200);
-      } else {
+      // checkMinMaxValue(valueInput, spanId[i], 6, 10);
+    } else if (arrId[i] == "tknv") {
+      isValid &=
+        checkEmptyValue(valueInput, spanId[i]) &&
+        checkMinMaxValue(valueInput, spanId[i], 4, 6);
+    } else if (arrId[i] == "name") {
+      isValid &=
+        checkEmptyValue(valueInput, spanId[i]) &&
+        checkTextValue(valueInput, spanId[i]);
+    } else if (arrId[i] == "datepicker") {
+      isValid &=
+        checkEmptyValue(valueInput, spanId[i]) &&
+        checkDatePicker(valueInput, spanId[i]);
+    } else if (arrId[i] == "luongCB") {
+      isValid &=
+        checkEmptyValue(valueInput, spanId[i]) &&
+        checkSalary(valueInput, spanId[i], 1000000, 20000000);
+    } else if (arrId[i] == "gioLam") {
+      isValid &=
+        checkEmptyValue(valueInput, spanId[i]) &&
+        checkHour(valueInput, spanId[i], 80, 200);
+    } else {
       isValid &= checkEmptyValue(valueInput, spanId[i]);
     }
     nhanVien[arrId[i]] = valueInput;
-
   }
   if (isValid) {
     // arrNhanVien.push(nhanVien);
     // saveLocalStore("arrNhanVien", arrNhanVien);
     // render();
     // reset();
-    
+
     return nhanVien;
   }
 }
@@ -80,7 +78,7 @@ function addUser() {
   if (nhanVien) {
     arrNhanVien.push(nhanVien);
     // debugger;
-    saveLocalStore('arrNhanVien', arrNhanVien);
+    saveLocalStore("arrNhanVien", arrNhanVien);
     render();
     reset();
   }
@@ -96,6 +94,7 @@ function render(arr) {
   for (let i = 0; i < arr.length; i++) {
     Object.assign(nhanVien, arr[i]);
     // console.log(nhanVien);
+    // console.log(nhanVien.xepLoai());
     content += `
         <tr>
 	        <td>${nhanVien.tknv}</td>
@@ -141,9 +140,8 @@ function deleteNhanVien(email) {
 }
 // Hàm lấy dữ liệu nhân viên đổ ra form nhập
 function getInforNhanVien(email) {
-  document.getElementById("email").disabled= true;
-  document.getElementById("btnThemNV").disabled= true;
-
+  document.getElementById("email").disabled = true;
+  document.getElementById("btnThemNV").disabled = true;
 
   var index = -1;
   for (let j = 0; j < arrNhanVien.length; j++) {
@@ -157,9 +155,9 @@ function getInforNhanVien(email) {
   }
 }
 // Hàm editNhanVien
-function editNhanVien(){
+function editNhanVien() {
   document.getElementById("email").disabled = false;
-  document.getElementById("btnThemNV").disabled= false;
+  document.getElementById("btnThemNV").disabled = false;
   var nhanVien = getValueUser();
   // 1 có dữ liệu sinh viên, 2 undifined
   // tìm tới vị trí của phần tử đang có dữ liệu cũ trong mảng và thay thế
@@ -173,9 +171,8 @@ function editNhanVien(){
   // CRUD ==> Create, Read, Update, Delete
   console.log(index);
   arrNhanVien[index] = nhanVien;
-  saveLocalStore('arrNhanVien', arrNhanVien);
+  saveLocalStore("arrNhanVien", arrNhanVien);
   render();
-
 }
 
 // hàm reset form nhập
@@ -190,21 +187,18 @@ function reset() {
 // kiếm tra loại nhập == xeploai => lấy ra Nhân Viên đó push vào arr
 // render
 function timKiemNhanVien() {
-  var nhanVien = new NhanVien()
-  var arrXepLoai = [];
+var arrSearch = [];
+  var nhanVienn = new NhanVien();
   var xepLoai = document.getElementById("searchName").value;
-  for (let j = 0; j < arrNhanVien.length; j++) {
-    Object.assign(nhanVien, arrNhanVien[j]);
-    if (nhanVien.xepLoai() == xepLoai) {
-      var xlnv = nhanVien;
-      console.log(xlnv);
-      arrXepLoai.push(xlnv);
-      console.log(arrXepLoai);
-    }
+  for (let i = 0; i < arrNhanVien.length; i++) {
+    Object.assign(nhanVienn, arrNhanVien[i]);
+  if (xepLoai == nhanVienn.xepLoai()) {
+    arrSearch.push(arrNhanVien[i]);
+    render(arrSearch)
   }
-  // document.getElementById("searchName").value = "";
-  render(arrXepLoai);
+  }
 }
+
 document.getElementById("btnTimNV").onclick = timKiemNhanVien;
 // ----------------- Chức năng lưu dữ liệu xuống localStorage
 function saveLocalStore(key, value) {
@@ -225,5 +219,3 @@ function getLocalStore(key) {
   }
 }
 getLocalStore("arrNhanVien");
-
-    

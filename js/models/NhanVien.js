@@ -11,10 +11,13 @@ function NhanVien(){
         var tongLuong=0;
         if(this.chucvu == 'Sếp'){
             tongLuong = this.luongCB *3;
-        }else if (this,this.chucvu == 'Trưởng phòng') {
+        }else if (this.chucvu == 'Trưởng phòng') {
             tongLuong = this.luongCB *2;
-        }else tongLuong = this.luongCB;
-        return tongLuong;
+        }else if (this.chucvu == 'Nhân viên') {
+            tongLuong = this.luongCB *1;
+        } 
+        var tl = tongLuong.toLocaleString('vi', {style : 'currency', currency : 'VND'});
+        return tl;
     },
     this.xepLoai = function(){
         var xl = "";
@@ -24,7 +27,9 @@ function NhanVien(){
             xl = "Giỏi";
         }else if (this.gioLam >=160) {
             xl = "Khá";
-        }else xl = "Trung bình";
+        }else if(this.gioLam < 160){
+            xl = "Trung bình";
+        } 
         return xl;
     }
 }
